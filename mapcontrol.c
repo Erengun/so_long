@@ -6,7 +6,7 @@
 /*   By: egun <egun@student.42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:47:02 by egun              #+#    #+#             */
-/*   Updated: 2022/06/29 22:04:39 by egun             ###   ########.fr       */
+/*   Updated: 2022/06/30 15:23:47 by egun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,18 @@ void	wall_control(t_win *win, char **map)
 		j = -1;
 		while (map[i][++j])
 		{
-			if (i == 0 || i == win->map->wid - 1)
+			if (i == 0 || i == win->map->hei - 1)
+			{
 				if (map[i][j] != '1')
 				{
 					ft_error("Invalid map wall");
 					break ;
 				}
+			}
 		}
-		if (map[i][0] != '1' || map[i][win->map->wid-1] != '1')
+		if (map[i][0] != '1' || map[i][win->map->wid - 1] != '1')
 		{
-			ft_error("Invalid map wall");	
+			ft_error("Invalid map wall");
 			break ;
 		}
 	}
@@ -83,7 +85,7 @@ void	collectible_control(t_win *win, char **map)
 		}
 	}
 	if (win->map->c_count < 1)
-		ft_error("Invalid Colletible Count");//TODO Call exit func
+		ft_error("Invalid Colletible Count");
 }
 
 void	exit_control(t_win *win, char **map)
@@ -102,6 +104,6 @@ void	exit_control(t_win *win, char **map)
 				win->map->e_count++;
 		}
 	}
-	if (win->map->e_count != 1)
-		ft_error("Invalid Exit Door Count");//TODO Call exit func
+	if (win->map->e_count < 1)
+		ft_error("Invalid Exit Door Count");
 }

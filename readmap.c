@@ -6,18 +6,26 @@
 /*   By: egun <egun@student.42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 14:08:40 by egun              #+#    #+#             */
-/*   Updated: 2022/06/29 22:02:41 by egun             ###   ########.fr       */
+/*   Updated: 2022/06/30 15:35:21 by egun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include <string.h>
 
+int	ft_mapsize_control(t_win *win, char *line)
+{
+	return (((int)ft_strlen(line) - 1 != win->map->wid
+			&& line[ft_strlen(line) - 1] == '\n')
+		|| (line[ft_strlen(line) - 1] != '\n'
+			&& (int)ft_strlen(line) != win->map->wid));
+}
+
 void	ft_error(char	*msg)
 {
-	ft_printf(RED "%s" RST, msg);
-	//TODO Exit func
+	ft_printf(RED "%s\n" RST, msg);
 	ft_printf("Error\n");
+	system("leaks so_long");
 	exit(0);
 }
 
@@ -28,11 +36,17 @@ void	map_size(char *path, t_win *win)
 
 	win->map->hei = 0;
 	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		ft_error("Invalid ber");
 	line = get_next_line(fd);
+	if (line == 0)
+		ft_error("Invalid map size");
 	win->map->wid = (int)ft_strlen(line)-1;
 	while (line)
 	{
-		if ((int)ft_strlen(line) - 1 != win->map->wid)
+		ft_printf("%s\n", line);
+		ft_printf(".\n");
+		if (ft_mapsize_control(win, line))
 			ft_error("Invalid map size");
 		win->map->hei++;
 		free(line);
@@ -50,6 +64,8 @@ void	read_map(t_win *win, char *path)
 
 	i = 0;
 	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		ft_error("Invalid ber");
 	line = get_next_line(fd);
 	win->map->_map = ft_calloc(win->map->hei, sizeof(char *));
 	while (line)
@@ -62,4 +78,5 @@ void	read_map(t_win *win, char *path)
 	}
 	//TODO New Line Control
 	free(line);
+	close(fd);
 }
