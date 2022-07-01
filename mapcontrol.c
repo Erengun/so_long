@@ -6,38 +6,39 @@
 /*   By: egun <egun@student.42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:47:02 by egun              #+#    #+#             */
-/*   Updated: 2022/06/30 15:23:47 by egun             ###   ########.fr       */
+/*   Updated: 2022/07/01 17:00:24 by egun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	map_control(t_win	*win, char	**map)
-{
-	player_control(win, map);
-	wall_control(win, map);
-	collectible_control(win, map);
-	exit_control(win, map);
-}
-
-void	player_control(t_win	*win, char	**map)
+void	component_control(t_win	*win, char	**map)
 {
 	int		i;
 	int		j;
 
 	i = -1;
-	win->map->p_count = 0;
 	while (++i < win->map->hei)
 	{
 		j = -1;
 		while (map[i][++j])
 		{
-			if (map[i][j] == 'P')
+			if (!ft_strchr("01ECP", map[i][j]))
+				ft_error("The map contains invalid letter(s).");
+			else if (map[i][j] == 'P')
 				win->map->p_count++;
+			else if (map[i][j] == 'C')
+				win->map->c_count++;
+			else if (map[i][j] == 'E')
+				win->map->e_count++;
 		}
 	}
 	if (win->map->p_count != 1)
-		ft_error("Invalid Player Count");
+		ft_error("Invalid number of player(s)");
+	if (win->map->e_count < 1)
+		ft_error("Invalid exit door.");
+	if (win->map->c_count < 1)
+		ft_error("Invalid collectible.");
 }
 
 void	wall_control(t_win *win, char **map)
@@ -55,55 +56,22 @@ void	wall_control(t_win *win, char **map)
 			{
 				if (map[i][j] != '1')
 				{
-					ft_error("Invalid map wall");
+					ft_error("Invalid walls. Check the borders of the map.");
 					break ;
 				}
 			}
 		}
 		if (map[i][0] != '1' || map[i][win->map->wid - 1] != '1')
 		{
-			ft_error("Invalid map wall");
+			ft_error("Invalid walls. Check the borders of the map.");
 			break ;
 		}
 	}
 }
 
-void	collectible_control(t_win *win, char **map)
+void	map_control(t_win	*win, char	**map)
 {
-	int		i;
-	int		j;
-
-	i = -1;
-	win->map->c_count = 0;
-	while (++i < win->map->hei)
-	{
-		j = -1;
-		while (map[i][++j])
-		{
-			if (map[i][j] == 'C')
-				win->map->c_count++;
-		}
-	}
-	if (win->map->c_count < 1)
-		ft_error("Invalid Colletible Count");
-}
-
-void	exit_control(t_win *win, char **map)
-{
-	int		i;
-	int		j;
-
-	i = -1;
-	win->map->e_count = 0;
-	while (++i < win->map->hei)
-	{
-		j = -1;
-		while (map[i][++j])
-		{
-			if (map[i][j] == 'E')
-				win->map->e_count++;
-		}
-	}
-	if (win->map->e_count < 1)
-		ft_error("Invalid Exit Door Count");
+	win->map->p_count = 0;
+	component_control(win, map);
+	wall_control(win, map);
 }

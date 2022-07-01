@@ -6,7 +6,7 @@
 /*   By: egun <egun@student.42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 14:08:40 by egun              #+#    #+#             */
-/*   Updated: 2022/06/30 15:35:21 by egun             ###   ########.fr       */
+/*   Updated: 2022/07/01 22:10:59 by egun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	ft_error(char	*msg)
 {
 	ft_printf(RED "%s\n" RST, msg);
 	ft_printf("Error\n");
-	system("leaks so_long");
 	exit(0);
 }
 
@@ -44,8 +43,6 @@ void	map_size(char *path, t_win *win)
 	win->map->wid = (int)ft_strlen(line)-1;
 	while (line)
 	{
-		ft_printf("%s\n", line);
-		ft_printf(".\n");
 		if (ft_mapsize_control(win, line))
 			ft_error("Invalid map size");
 		win->map->hei++;
@@ -76,7 +73,6 @@ void	read_map(t_win *win, char *path)
 		free(line);
 		line = get_next_line(fd);
 	}
-	//TODO New Line Control
 	free(line);
 	close(fd);
 }
