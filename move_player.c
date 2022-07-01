@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egun <egun@student.42istanbul.com.tr>      +#+  +:+       +#+        */
+/*   By: okarakel <omerlutfu.k34@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/29 21:11:00 by egun              #+#    #+#             */
-/*   Updated: 2022/06/30 14:24:42 by egun             ###   ########.fr       */
+/*   Created: 2022/06/30 16:34:24 by okarakel          #+#    #+#             */
+/*   Updated: 2022/06/30 16:34:42 by okarakel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	new_map(t_win *win, char **map, int x, int y)
 	if (map[y][x] == 'E' && win->map->c_count == 0)
 	{
 		win->chr->move_count++;
-		ft_printf(MAG"%d\n"RST, win->chr->move_count);
+		ft_printf("%d\n", win->chr->move_count);
 		ft_key(53, win);
 	}
 	map[win->chr->y][win->chr->x] = '0';
@@ -36,7 +36,7 @@ void	new_map(t_win *win, char **map, int x, int y)
 	win->chr->x = x;
 	win->chr->y = y;
 	win->chr->move_count++;
-	ft_printf(BLU "%d\n" RST, win->chr->move_count);
+	ft_printf("%d\n", win->chr->move_count);
 }
 
 void	edit_map(int keycode, t_win *win, char **map)

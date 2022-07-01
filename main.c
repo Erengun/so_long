@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egun <egun@student.42istanbul.com.tr>      +#+  +:+       +#+        */
+/*   By: okarakel <omerlutfu.k34@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 18:09:25 by egun              #+#    #+#             */
-/*   Updated: 2022/06/30 14:45:29 by egun             ###   ########.fr       */
+/*   Created: 2022/06/30 16:31:50 by okarakel          #+#    #+#             */
+/*   Updated: 2022/06/30 16:51:29 by okarakel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <fcntl.h>
 
 void	close_frame(t_win *win)
 {
@@ -25,8 +24,6 @@ void	close_frame(t_win *win)
 	while (++i < win->map->hei)
 		free(win->map->_map[i]);
 	mlx_destroy_window(win->mlx, win->win);
-	//!! Göndermeden sil
-	system("leaks so_long");
 	exit(1);
 }
 
@@ -36,7 +33,7 @@ int	ft_key(int keycode, t_win *win)
 		close_frame(win);
 	else if (keycode == 2 || keycode == 0 || keycode == 13 || keycode == 1)
 		edit_map(keycode, win, win->map->_map);
-	return (SJ - 31);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -61,5 +58,5 @@ int	main(int argc, char **argv)
 	else
 		ft_error("Invalid input.");
 	system("leaks so_long");
-	return (SJ - 31);
+	return (0);
 }

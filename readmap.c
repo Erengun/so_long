@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   readmap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egun <egun@student.42istanbul.com.tr>      +#+  +:+       +#+        */
+/*   By: okarakel <omerlutfu.k34@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/25 14:08:40 by egun              #+#    #+#             */
-/*   Updated: 2022/06/30 15:35:21 by egun             ###   ########.fr       */
+/*   Created: 2022/06/30 16:33:49 by okarakel          #+#    #+#             */
+/*   Updated: 2022/06/30 17:25:07 by okarakel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <string.h>
 
 int	ft_mapsize_control(t_win *win, char *line)
 {
@@ -23,7 +22,7 @@ int	ft_mapsize_control(t_win *win, char *line)
 
 void	ft_error(char	*msg)
 {
-	ft_printf(RED "%s\n" RST, msg);
+	ft_printf("%s\n", msg);
 	ft_printf("Error\n");
 	system("leaks so_long");
 	exit(0);
@@ -37,17 +36,15 @@ void	map_size(char *path, t_win *win)
 	win->map->hei = 0;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		ft_error("Invalid ber");
+		ft_error("Invalid map file");
 	line = get_next_line(fd);
 	if (line == 0)
 		ft_error("Invalid map size");
 	win->map->wid = (int)ft_strlen(line)-1;
 	while (line)
 	{
-		ft_printf("%s\n", line);
-		ft_printf(".\n");
 		if (ft_mapsize_control(win, line))
-			ft_error("Invalid map size");
+			ft_error("Invalid map");
 		win->map->hei++;
 		free(line);
 		line = get_next_line(fd);
@@ -65,7 +62,7 @@ void	read_map(t_win *win, char *path)
 	i = 0;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		ft_error("Invalid ber");
+		ft_error("Invalid map file");
 	line = get_next_line(fd);
 	win->map->_map = ft_calloc(win->map->hei, sizeof(char *));
 	while (line)
@@ -76,7 +73,6 @@ void	read_map(t_win *win, char *path)
 		free(line);
 		line = get_next_line(fd);
 	}
-	//TODO New Line Control
 	free(line);
 	close(fd);
 }
